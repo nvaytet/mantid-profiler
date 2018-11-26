@@ -11,7 +11,7 @@ python SNSPowderReduction.py & python path/to/mantid-profiler/mantid-profiler.py
 ```
 The script attaches to the last spawned process, so you can also use the profiler if you are working with `MantidPlot`:
 ```
-MantidPlot & python path/to/mantid-profiler/mantid-profiler.py $!
+./MantidPlot & python path/to/mantid-profiler/mantid-profiler.py $!
 ```
 
 ## Requires
