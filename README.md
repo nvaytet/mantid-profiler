@@ -1,7 +1,8 @@
 # mantid-profiler
 
 Use [psrecord](https://github.com/astrofrog/psrecord) and [Plotly.js](https://plot.ly/javascript/) to profile a Mantid workflow.
-It monitors CPU and RAM usage and reports the time span of each algorithm (currently, only algorithms are recorded).
+
+It monitors CPU and RAM usage, and reports the time span of each algorithm (currently, only algorithms are recorded).
 
 ## Usage
 
