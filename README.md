@@ -14,6 +14,16 @@ It monitors CPU and RAM usage and reports the time span of each algorithm (curre
 ## Results
 
 After running on the `SNSPowderReduction.py` workflow, the profiler produces a `profile.html` file to be viewed with an internet browser.
+![SNS Powder Reduction profile](http://www.nbi.dk/~nvaytet/SNSPowderReduction_12.png)
+
+You can interact with the profile [here](http://www.nbi.dk/~nvaytet/SNSPowderReduction_12.html).
+
+**Controls:**
+
+- Mouse wheel to zoom (horizontal zoom only)
+- Left click to select zoom region (horizontal zoom only)
+- Double-click to reset axes
+- Hold shift and mouse click to pan
 
 ## Contact
 
