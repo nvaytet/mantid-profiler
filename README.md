@@ -5,7 +5,14 @@ It monitors CPU and RAM usage and reports the time span of each algorithm (curre
 
 ## Usage
 
-`python SNSPowderReduction.py & python path/to/mantid-profiler/mantid-profiler.py $!`
+To profile the `SNSPowderReduction.py` workflow:
+```
+python SNSPowderReduction.py & python path/to/mantid-profiler/mantid-profiler.py $!
+```
+The script attaches to the last spawned process, so you can also use the profiler if you are working with `MantidPlot`:
+```
+MantidPlot & python path/to/mantid-profiler/mantid-profiler.py $!
+```
 
 ## Requires
 
