@@ -25,7 +25,7 @@ The script attaches to the last spawned process, so you can also use the profile
 After running on the `SNSPowderReduction.py` workflow, the profiler produces a `profile.html` file to be viewed with an internet browser.
 ![SNS Powder Reduction profile](http://www.nbi.dk/~nvaytet/SNSPowderReduction_12.png)
 
-You can interact with the profile [here](http://www.nbi.dk/~nvaytet/SNSPowderReduction_12.html).
+You can interact with a demo profile [here](http://www.nbi.dk/~nvaytet/SNSPowderReduction_12.html).
 
 **Controls:**
 
