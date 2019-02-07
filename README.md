@@ -18,6 +18,7 @@ The script attaches to the last spawned process, so you can also use the profile
 ## Requires
 
 - psutil
+- You need to build Mantid with the `-DPROFILE_ALGORITHM_LINUX=ON` `CMake` flag to get the timing output from the algorithms.
 
 ## Results
 
