@@ -126,9 +126,12 @@ def apply_multiple_trees(trees, check, func):
         lst[i].info = func([x[i].info for x in lists])
     return root
 
+
 def parseLine(line):
-    res = re.split(">>|:|<>", line)
-    return {"thread_id" : res[0], "name" : res[1], "start" : int(res[2]), "finish" : int(res[3])}
+    res = re.search('ThreadID=([0-9]*), AlgorithmName=(.*), StartTime=([0-9]*), EndTime=([0-9]*)', line)
+    return {"thread_id" : res.group(1), "name" : res.group(2),
+            "start" : int(res.group(3)), "finish" : int(res.group(4))}
+
 
 def fromFile(fileName):
     res = []
@@ -140,6 +143,7 @@ def fromFile(fileName):
                 continue
             res.append(parseLine(line))
     return header, res
+
 
 def cmp_to_key(mycmp):
     'Convert a cmp= function into a key= function'
