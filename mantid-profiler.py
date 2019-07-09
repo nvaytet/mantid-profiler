@@ -317,6 +317,10 @@ def main():
                              "seconds). By default the process is sampled "
                              "as often as possible.")
 
+    parser.add_argument("--mintime", type=float, default=0.1,
+                        help="minimum duration for an algorithm to appear in"
+                             "the profiling graph (in seconds).")
+
     args = parser.parse_args()
 
     # Launch the process monitor and wait for it to return
@@ -328,7 +332,7 @@ def main():
         header, records = at.fromFile(args.infile)
     except FileNotFoundError:
         raise
-    records = [x for x in records if x["finish"] - x["start"] > 1.0e8]
+    records = [x for x in records if x["finish"] - x["start"] > (args.mintime*1.0e9)]
     # Number of threads allocated to this run
     nthreads = int(header.split()[3])
     # Run start time
