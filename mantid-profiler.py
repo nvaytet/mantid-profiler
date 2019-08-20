@@ -130,6 +130,7 @@ def treeNodeToHtml(node, lmax, sync_time, header, count, tot_time):
             boxText += "  - " + ch.info[0] + "<br>"
 
     # Create trace
+    base_url = "https://docs.mantidproject.org/nightly/algorithms/"
     outputString = "trace%i = {\n" % count
     outputString += "x: [%f, %f, %f, %f, %f],\n" % (x0, x0, x2, x1, x1)
     outputString += "y: [%f, %f, %f, %f, %f],\n" % (y0, y1, y1, y1, y0)
@@ -142,16 +143,14 @@ def treeNodeToHtml(node, lmax, sync_time, header, count, tot_time):
     outputString += "width: 1.0\n"
     outputString += "},\n"
     outputString += "mode: 'lines+text',\n"
-    outputString += "text: ['', '', '%s', '', ''],\n" % node.info[0]
-    outputString += "textposition: 'top',\n"
-    outputString += "textfont: {\n"
     # If the background color is too bright, make the font color black.
     # Default font color is white
     if color[3] > 180:
-        outputString += "  color: '#000000',\n"
+        textcolor = '#000000'
     else:
-        outputString += "  color: '#ffffff',\n"
-    outputString += "},\n"
+        textcolor = '#ffffff'
+    outputString += "text: ['', '', '<a style=\"text-decoration: none; color: %s;\" href=\"%s%s-v1.html\">%s</a>', '', ''],\n" % (textcolor, base_url, node.info[0].split()[0], node.info[0])
+    outputString += "textposition: 'top',\n"
     outputString += "hovertext: '" + boxText + "',\n"
     outputString += "hoverinfo: 'text',\n"
     outputString += "type: 'scatter',\n"
