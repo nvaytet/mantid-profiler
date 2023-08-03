@@ -329,18 +329,25 @@ def main():
     # Read in algorithm timing log and build tree
     try:
         header, records = at.fromFile(args.infile)
-    except FileNotFoundError:
-        raise
-    records = [x for x in records if x["finish"] - x["start"] > (args.mintime*1.0e9)]
-    # Number of threads allocated to this run
-    nthreads = int(header.split()[3])
-    # Run start time
-    header = int(header.split()[1])
-    # Find maximum level in all trees
-    lmax = 0
-    for tree in at.toTrees(records):
-        for node in tree.to_list():
-            lmax = max(node.level,lmax)
+        records = [x for x in records if x["finish"] - x["start"] > (args.mintime*1.0e9)]
+        # Number of threads allocated to this run
+        nthreads = int(header.split()[3])
+        # Run start time
+        header = int(header.split()[1])
+        # Find maximum level in all trees
+        lmax = 0
+        for tree in at.toTrees(records):
+            for node in tree.to_list():
+                lmax = max(node.level,lmax)
+    except FileNotFoundError as e:
+        print("failed to load file:", e.filename)
+        print("creating plot without algorithm annotations")
+
+        import psutil
+        nthreads = psutil.cpu_count()
+        lmax = 1
+        header = ""
+        records = []
 
     # Read in CPU and memory activity log
     try:
