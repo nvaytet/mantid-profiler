@@ -42,6 +42,10 @@ You can interact with a demo profile [here](http://www.nbi.dk/~nvaytet/SNSPowder
 - `--interval`: (type=`float`) How long to wait between each sample (in seconds) for CPU and RAM monitoring. By default the process is sampled as often as possible.
 - `--mintime`: (type=`float`) Minimum duration of an algorithm for it to appear in the profiling graph (in seconds). Default is 0.1s.
 
+## Similar projects
+
+[viztracer](https://github.com/gaogaotiantian/viztracer) creates similar information for generic python software
+
 ## Contact
 
 Neil Vaytet, European Spallation Source
