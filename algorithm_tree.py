@@ -19,7 +19,7 @@ import copy
 import re
 
 
-class Node():
+class Node:
     def __init__(self, info=[]):
         self.parent = None
         self.level = 0
@@ -33,6 +33,7 @@ class Node():
             lst.append(node)
             for nd in node.children:
                 to_list_int(nd, lst)
+
         to_list_int(self, res)
         return res
 
@@ -47,6 +48,7 @@ class Node():
                 res.append(node)
             for nd in node.children:
                 find_all_int(nd, cond, res)
+
         result = []
         find_all_int(self, cond, result)
         return result
@@ -57,6 +59,7 @@ class Node():
                 res[0] = node
                 for nd in node.children:
                     find_in_depth_int(nd, cond, res)
+
         result = [None]
         find_in_depth_int(self, cond, result)
         return result[0]
@@ -71,6 +74,7 @@ class Node():
                     return
                 for nd in node.children:
                     find_first_int(nd, cond, res)
+
         result = []
         find_first_int(self, cond, result)
         return result[0]
@@ -91,6 +95,7 @@ class Node():
             nd.info = func(nd.info)
             for ch in nd.children:
                 apply_int(ch, func)
+
         root = self.clone()
         apply_int(root, func)
         return root
@@ -128,9 +133,8 @@ def apply_multiple_trees(trees, check, func):
 
 
 def parseLine(line):
-    res = re.search('ThreadID=([0-9]*), AlgorithmName=(.*), StartTime=([0-9]*), EndTime=([0-9]*)', line)
-    return {"thread_id" : res.group(1), "name" : res.group(2),
-            "start" : int(res.group(3)), "finish" : int(res.group(4))}
+    res = re.search("ThreadID=([0-9]*), AlgorithmName=(.*), StartTime=([0-9]*), EndTime=([0-9]*)", line)
+    return {"thread_id": res.group(1), "name": res.group(2), "start": int(res.group(3)), "finish": int(res.group(4))}
 
 
 def fromFile(fileName):
@@ -146,28 +150,41 @@ def fromFile(fileName):
 
 
 def cmp_to_key(mycmp):
-    'Convert a cmp= function into a key= function'
+    "Convert a cmp= function into a key= function"
+
     class K:
-        def __init__(self, obj, *args):
+        def __init__(self, obj, *args):  # noqa: ARG002
             self.obj = obj
+
         def __lt__(self, other):
             return mycmp(self.obj, other.obj) < 0
+
         def __gt__(self, other):
             return mycmp(self.obj, other.obj) > 0
+
         def __eq__(self, other):
             return mycmp(self.obj, other.obj) == 0
+
         def __le__(self, other):
             return mycmp(self.obj, other.obj) <= 0
+
         def __ge__(self, other):
             return mycmp(self.obj, other.obj) >= 0
+
         def __ne__(self, other):
             return mycmp(self.obj, other.obj) != 0
+
     return K
 
+
 def toTrees(records):
-    recs = sorted(records, key = cmp_to_key(lambda x, y: x["start"] - y["start"] if x["start"] != y["start"] else y["finish"] - x["finish"]))
+    recs = sorted(
+        records,
+        key=cmp_to_key(lambda x, y: x["start"] - y["start"] if x["start"] != y["start"] else y["finish"] - x["finish"]),
+    )
+
     def rec_to_node(r, counter):
-        return Node([r["name"] + " " + str(counter), r["start"], r["finish"], counter ])
+        return Node([r["name"] + " " + str(counter), r["start"], r["finish"], counter])
 
     heads = []
     counter = dict()

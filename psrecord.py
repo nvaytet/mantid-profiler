@@ -26,11 +26,11 @@
 ###############################################################################
 #
 # 2018: Modified for Mantid profiler by Neil Vaytet & Igor Gudich
+# https://github.com/astrofrog/psrecord
 #
 ###############################################################################
 
-from __future__ import (unicode_literals, division, print_function,
-                        absolute_import)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import time
 
@@ -62,14 +62,14 @@ def all_children(pr):
         return pr.children(recursive=True)
     except AttributeError:
         return pr.get_children(recursive=True)
-    except Exception:  # pragma: no cover
+    except Exception:  # noqa: BLE001
         return []
 
 
-def update_children(old_children, new_children): # old children - dict, new_children - list
+def update_children(old_children, new_children):  # old children - dict, new_children - list
     new_dct = {}
     for ch in new_children:
-        new_dct.update({ch.pid : ch})
+        new_dct.update({ch.pid: ch})
 
     todel = []
     for pid in old_children.keys():
@@ -87,7 +87,6 @@ def update_children(old_children, new_children): # old children - dict, new_chil
 
 
 def monitor(pid, logfile=None, interval=None):
-
     # We import psutil here so that the module can be imported even if psutil
     # is not present (for example if accessing the version)
     import psutil
@@ -101,25 +100,25 @@ def monitor(pid, logfile=None, interval=None):
     except AttributeError:
         start_time = time.time()
 
-    f = open(logfile, 'w')
-    f.write("# {0:12s} {1:12s} {2:12s} {3:12s} {4}\n".format(
-        'Elapsed time'.center(12),
-        'CPU (%)'.center(12),
-        'Real (MB)'.center(12),
-        'Virtual (MB)'.center(12),
-        'Threads info'.center(12))
+    f = open(logfile, "w")
+    f.write(
+        "# {0:12s} {1:12s} {2:12s} {3:12s} {4}\n".format(
+            "Elapsed time".center(12),
+            "CPU (%)".center(12),
+            "Real (MB)".center(12),
+            "Virtual (MB)".center(12),
+            "Threads info".center(12),
+        )
     )
-    f.write('START_TIME: {}\n'.format(starting_point))
+    f.write("START_TIME: {}\n".format(starting_point))
 
     children = {}
     for ch in all_children(pr):
         children.update({ch.pid: ch})
 
     try:
-
         # Start main event loop
         while True:
-
             # Find current time
             try:
                 current_time = time.perf_counter()
@@ -135,8 +134,7 @@ def monitor(pid, logfile=None, interval=None):
 
             # Check if process status indicates we should exit
             if pr_status in [psutil.STATUS_ZOMBIE, psutil.STATUS_DEAD]:
-                print("Process finished ({0:.2f} seconds)"
-                      .format(current_time - start_time))
+                print("Process finished ({0:.2f} seconds)".format(current_time - start_time))
                 break
 
             # Get current CPU and memory
@@ -144,10 +142,10 @@ def monitor(pid, logfile=None, interval=None):
                 current_cpu = get_percent(pr)
                 current_mem = get_memory(pr)
                 current_threads = get_threads(pr)
-            except Exception:
+            except Exception:  # noqa: BLE001
                 break
-            current_mem_real = current_mem.rss / 1024. ** 2
-            current_mem_virtual = current_mem.vms / 1024. ** 2
+            current_mem_real = current_mem.rss / 1024.0**2
+            current_mem_virtual = current_mem.vms / 1024.0**2
 
             # Get information for children
             update_children(children, all_children(pr))
@@ -156,17 +154,20 @@ def monitor(pid, logfile=None, interval=None):
                     current_cpu += get_percent(child)
                     current_mem = get_memory(child)
                     current_threads.extend(get_threads(child))
-                except Exception:
+                except Exception:  # noqa: BLE001
                     continue
-                current_mem_real += current_mem.rss / 1024. ** 2
-                current_mem_virtual += current_mem.vms / 1024. ** 2
+                current_mem_real += current_mem.rss / 1024.0**2
+                current_mem_virtual += current_mem.vms / 1024.0**2
 
-            f.write("{0:12.6f} {1:12.3f} {2:12.3f} {3:12.3f} {4}\n".format(
-                current_time - start_time + starting_point,
-                current_cpu,
-                current_mem_real,
-                current_mem_virtual,
-                current_threads))
+            f.write(
+                "{0:12.6f} {1:12.3f} {2:12.3f} {3:12.3f} {4}\n".format(
+                    current_time - start_time + starting_point,
+                    current_cpu,
+                    current_mem_real,
+                    current_mem_virtual,
+                    current_threads,
+                )
+            )
             f.flush()
 
             if interval is not None:

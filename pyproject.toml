@@ -1,0 +1,14 @@
+[project]
+name = "mantidprofiler"
+description = "Uses psrecord and plotly.js to profile a mantid workflow"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "GPL3.0" }
+
+[build-system]
+requires = ["setuptools", "wheel", "toml"]
+
+[tool.ruff]
+line-length = 120
+# https://beta.ruff.rs/docs/rules/
+select = ["A", "ARG", "BLE", "E", "F", "I", "PT"]
